@@ -1,0 +1,10 @@
+{ "author": { "name": "Whyme.Lyu"
+            , "email": "5longluna@gmail.com"
+            }
+, "description": "Watch your file changing and fire events"
+, "devDependencies": {"reut": ">=0.1.0"}
+, "engines": {"node": ">=0.2.0"}
+, "main": "./src"
+, "name": "roil"
+, "scripts": { "test": "make test-all" }
+}
