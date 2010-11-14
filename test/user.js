@@ -8,10 +8,8 @@ reut.suite("User Class")
   f.transport = new EventEmitter()
   f.fileRoll = new EventEmitter()
   f.workspace = {
-    open: function(url, cb) {
-      process.nextTick(function() {
-        cb(null, f.fileRoll)
-      })
+    open: function(url) {
+      return f.fileRoll
     }
   }
   f.u = new User(f.transport)
@@ -20,11 +18,18 @@ reut.suite("User Class")
   done()
 })
 .test("forward open action from transport", function(t, f) {
+  var wsOpen = f.workspace.open
   f.workspace.open = t.cb(function(url) {
     t.is(url, f.url)
+    return wsOpen.apply(this, arguments)
   })
   f.transport.emit("message", {
     action: 'open'
   , url: f.url
   })
+})
+.test("forward file change to transport", function(t, f) {
+  f.transport.send = t.cb()
+  f.u._addPage(f.fileRoll)
+  f.fileRoll.emit("change")
 })
