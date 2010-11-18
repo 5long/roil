@@ -12,4 +12,10 @@ function Client(socket) {
 }
 lml.inherits(Client, lml.EventEmitter)
 
+lml.def(Client.prototype, {
+  send: function(msg) {
+    this._socket.send(JSON.stringify(msg))
+  }
+})
+
 module.exports = Client
