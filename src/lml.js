@@ -2,6 +2,12 @@
 var util = module.exports = {
   inherits: function(klass, super) {
     klass.prototype = Object.create(super.prototype)
+    Object.defineProperty(klass.prototype, "constructor", {
+      value: klass
+    , writable: true
+    , configurable: true
+    , enumerable: false
+    })
   }
 , def: function(dest, source) {
     if (arguments.length < 2) throw TypeError("Wrong number of arguments")
