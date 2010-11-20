@@ -3,4 +3,5 @@ module.exports = {
 , FileRoll: require("./file-roll")
 , User: require("./user")
 , Client: require("./client")
+, Workspace: require("./workspace")
 }
