@@ -4,4 +4,5 @@ module.exports = {
 , User: require("./user")
 , Client: require("./client")
 , Workspace: require("./workspace")
+, watcher: require("./watcher")
 }
