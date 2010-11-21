@@ -19,7 +19,7 @@ reut.suite("RollUnit")
   var file = f.file
     , p = f.path
 
-  t.timeout = 15
+  t.timeout = 500
 
   t.equal(file.path, f.fullpath, "got the path")
   t.equal(file, f.fullpath, "toString()")
@@ -30,10 +30,11 @@ reut.suite("RollUnit")
     t.instanceOf(stat, fs.Stats)
     this.watchStop()
     t.ok(!file.watching)
+    t.end()
   })
 
   t.throws(function() {
-    file.watching = tfilee
+    file.watching = "blah"
   })
   t.throws(function() {
     file.path = "what ever"

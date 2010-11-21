@@ -4,7 +4,6 @@ var reut = require("reut")
   , FileRoll = roil.FileRoll
   , File = roil.File
   , path = require("path")
-  , touch = require("./fixture/touch")
   , EventEmitter = require("events").EventEmitter
 
 reut.suite("Workspace Class")
@@ -18,14 +17,12 @@ reut.suite("Workspace Class")
   done()
 })
 .test(".open()", function(t, f) {
-  t.timeout = 50
   var page = f.ws.open(path.basename(__filename))
   t.typeOf(page.on, "function")
   t.emits(page, "change", function() {
     File.new(__filename).watchStop()
-    t.end()
   })
-  touch(__filename)
+  File.new(__filename).emit("change")
 })
 .test(".addServer()", function(t, f) {
   var ws = f.ws

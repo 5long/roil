@@ -1,7 +1,6 @@
 var reut = require("reut")
   , roil = require("../src")
   , FileRoll = roil.FileRoll
-  , touch = require("./fixture/touch")
 
 reut.suite("FileRoll")
 .setup(function(f, done) {
