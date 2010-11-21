@@ -30,7 +30,10 @@ reut.suite("User Class")
   })
 })
 .test("forward file change to transport", function(t, f) {
-  f.transport.send = t.cb()
-  f.u._addPage(f.fileRoll)
+  f.transport.send = t.cb(function(msg) {
+    t.equal(msg.type, "change")
+    t.equal(msg.url, f.url)
+  })
+  f.u._addPage(f.fileRoll, f.url)
   f.fileRoll.emit("change")
 })
