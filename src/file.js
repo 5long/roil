@@ -1,6 +1,7 @@
 var lml = require('./lml')
-  , fs = require('fs')
+  , isFunc = lml.isFunc
   , path = require("path")
+  , fs = require("fs")
   , all = {}
 
 function File(p) {
@@ -8,7 +9,7 @@ function File(p) {
   this._watching = false
 }
 
-File.new = function(p) {
+File.new = function(p, fs) {
   p = File.normalizePath(p)
   return p in all ? all[p] : all[p] = new File(p)
 }
@@ -29,13 +30,13 @@ lml.def(File.prototype, {
   watchStart: function() {
     if (this._watching) return
     this._watching = true
-    fs.watchFile(this._path, function(current, prev) {
+    this._watchModule.watchFile(this._path, function(current, prev) {
       this.emit("change", current, prev)
     }.bind(this))
   }
 
 , watchStop: function() {
-    fs.unwatchFile(this._path)
+    this._watchModule.unwatchFile(this._path)
     this._watching = false
   }
 
@@ -50,6 +51,8 @@ lml.def(File.prototype, {
 , get path() {
     return this._path
   }
+
+, _watchModule: fs
 })
 
 module.exports = File

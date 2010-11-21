@@ -18,4 +18,7 @@ var util = module.exports = {
     }, dest)
   }
 , EventEmitter: require("events").EventEmitter
+, isFunc: function(obj) {
+    return Object.prototype.toString.call(obj) == "[object Function]"
+  }
 }
