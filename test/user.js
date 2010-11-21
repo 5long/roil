@@ -2,6 +2,7 @@ var reut = require("reut")
   , roil = require("../src")
   , User = roil.User
   , EventEmitter = require("events").EventEmitter
+  , parse = require("url").parse
 
 reut.suite("User Class")
 .setup(function(f, done) {
@@ -20,7 +21,7 @@ reut.suite("User Class")
 .test("forward open action from transport", function(t, f) {
   var wsOpen = f.workspace.open
   f.workspace.open = t.cb(function(url) {
-    t.is(url, f.url)
+    t.is(url, parse(f.url).pathname)
     return wsOpen.apply(this, arguments)
   })
   f.transport.emit("message", {

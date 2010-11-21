@@ -1,4 +1,5 @@
 var lml = require("./lml")
+  , url = require("url")
 
 function User(transport) {
   this._pages = []
@@ -19,7 +20,7 @@ lml.def(User.prototype, {
 , _onClientMessage: function(msg) {
     if (msg.action != "open") return
     if (!this._workspace) return
-    var page = this._workspace.open(msg.url)
+    var page = this._workspace.open(url.parse(msg.url).pathname)
     this._addPage(page)
   }
 })
