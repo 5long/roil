@@ -1,3 +1,35 @@
-# WIP
+# Intro
 
-History unstable, don't fork at this moment. Wait 'til a tag appears.
+Roil fires up an HTTP server which could monitor changes of files and
+notify opted-in browser clients to refresh the webpage so you don't have to
+press F5 each time you saved file.
+
+## Installation
+
+Using `npm`:
+
+    $ npm install roil
+
+## Usage
+
+In your working directory:
+
+    $ ls
+    bar.css  foo.html
+    $ roil &
+    $ firefox http://localhost:8913/roil/
+
+Then in the opened page, enter `foo.html` and click the open button.
+Now you can edit `foo.html` and see your browser automatically refresh
+every time you save it.
+
+If there's a `<link>` tag in `foo.html` referring to `bar.css`, the roil
+server would take care of this (by checking HTTP header) so changing
+`bar.css` also notifies your browser to refresh.
+
+## TODO
+
+* Documentation
+* Supporting PHP would be fine
+* Provide an simple interface to define custom file-to-url rules
+* Built in file-to-url rules for popular webdev frameworks (Rails?)

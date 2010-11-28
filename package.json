@@ -1,10 +1,26 @@
 { "author": { "name": "Whyme.Lyu"
             , "email": "5longluna@gmail.com"
             }
-, "description": "Watch your file changing and fire events"
+, "bin": {"roil": "./src/cli.js"}
+, "description": "Watch file change and notify browser"
+, "dependencies":
+  { "connect": ">=0.2.7"
+  , "socket.io": ">= 0.6.0"
+  }
 , "devDependencies": {"reut": ">=0.1.1"}
 , "engines": {"node": ">=0.2.0"}
+, "homepage": "http://github.com/5long/roil"
+, "licenses":
+  [ { "type": "MIT"
+    , "url": "http://github.com/5long/roil/raw/master/LICENSE"
+    }
+  ]
 , "main": "./src"
 , "name": "roil"
+, "repository":
+  { "type": "git"
+  , "url": "http://github.com/5long/roil.git"
+  }
 , "scripts": { "test": "make test-all" }
+, "version": "0.1.0"
 }

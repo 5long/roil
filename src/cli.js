@@ -3,12 +3,32 @@ var Console = require("./console")
   , arg, options = {
       workDir: process.cwd()
     , consolePath: "/roil/"
-    , port : 3000
+    , port: 8913
+    , debug: false
     }
   , args = process.argv.slice(2)
   , connect = require("connect")
   , server = connect.createServer()
   , c = new Console()
+  , helpMessage =
+    [ "Usage: roil [options]"
+    , "Options:"
+    , "  -v, --version"
+    , "    print version and exit"
+    , ""
+    , "  -p <port>, --port <port>"
+    , "    port to listen, 8913 by default"
+    , ""
+    , "  -d <path>, --work-dir <path>"
+    , "    document root for this HTTP server, cwd is used by default"
+    , ""
+    , "  -c <path>, --console-path <path>"
+    , "    use a specific path for console, `/roil/' by default"
+    , "    mostly you don't have to worry 'cuz \"roil\" is a strange name"
+    , ""
+    , "  -h, --help"
+    , "    print this and exit"
+    ].join("\n")
 
 while (arg = args.shift()) {
   switch (arg) {
@@ -27,7 +47,15 @@ while (arg = args.shift()) {
     case "--debug":
       options.debug = true
       break;
-    defaut:
+    case "-v":
+    case "--version":
+      console.log("roil v0.1.0")
+      process.exit()
+    case "-h":
+    case "--help":
+      console.log(helpMessage)
+      process.exit(1)
+    default:
       throw new Error("Unknown argument: " + arg)
   }
 }
@@ -36,6 +64,7 @@ c.attach(server, options)
 server.listen(options.port)
 
 if (options.debug) {
+  console.log(options)
   var context = require("repl").start().context
   context.c = c
   context.s = server
