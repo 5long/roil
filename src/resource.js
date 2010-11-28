@@ -1,13 +1,13 @@
 var lml = require("./lml")
 
-function FileRoll() {
+function Resource() {
   this._files = {}
   this._changeHandlers = {}
 }
 
-lml.inherits(FileRoll, lml.EventEmitter)
+lml.inherits(Resource, lml.EventEmitter)
 
-lml.def(FileRoll.prototype, {
+lml.def(Resource.prototype, {
   add: function(file) {
     if (this.has(file)) return
     this._files[file] = file
@@ -30,4 +30,4 @@ lml.def(FileRoll.prototype, {
   }
 })
 
-module.exports = FileRoll
+module.exports = Resource

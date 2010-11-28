@@ -1,12 +1,12 @@
 var reut = require("reut")
   , roil = require("../src")
-  , FileRoll = roil.FileRoll
+  , Resource = roil.Resource
 
-reut.suite("FileRoll")
+reut.suite("Resource")
 .setup(function(f, done) {
-  var fr = f.fr = new FileRoll()
+  var res = f.res = new Resource()
   f.file = require("./fixture/file").f
-  fr.add(f.file)
+  res.add(f.file)
   done()
 })
 .teardown(function(f, done) {
@@ -14,25 +14,25 @@ reut.suite("FileRoll")
   done()
 })
 .test("works like a set", function(t, f) {
-  var roll = f.fr
+  var res = f.res
     , file = f.file
-  t.ok(roll.has(file))
-  roll.del(file)
-  t.ok(!roll.has(file))
+  t.ok(res.has(file))
+  res.del(file)
+  t.ok(!res.has(file))
 })
 .test("forwarding event", function(t, f) {
   t.timeout = 15
   t.ok(f.file.watching)
-  t.emits(f.fr, "change", function(file) {
+  t.emits(f.res, "change", function(file) {
     t.strictEqual(file, f.file, "just that file")
   })
 
   f.file.emit("change")
 })
 .test("not forwarding event when deleted", function(t, f) {
-  f.fr.del(f.file)
+  f.res.del(f.file)
   f.file.watchStart()
-  f.fr.on("change", function() {
+  f.res.on("change", function() {
     throw Error("Should not fire")
   })
   f.file.emit("change")

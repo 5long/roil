@@ -7,10 +7,10 @@ var reut = require("reut")
 reut.suite("User Class")
 .setup(function(f, done) {
   f.transport = new EventEmitter()
-  f.fileRoll = new EventEmitter()
+  f.resource = new EventEmitter()
   f.workspace = {
     open: function(url) {
-      return f.fileRoll
+      return f.resource
     }
   }
   f.u = new User(f.transport)
@@ -34,6 +34,6 @@ reut.suite("User Class")
     t.equal(msg.type, "change")
     t.equal(msg.url, f.url)
   })
-  f.u._addPage(f.fileRoll, f.url)
-  f.fileRoll.emit("change")
+  f.u._addPage(f.resource, f.url)
+  f.resource.emit("change")
 })

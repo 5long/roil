@@ -1,7 +1,6 @@
 var reut = require("reut")
   , roil = require("../src")
   , Workspace = roil.Workspace
-  , FileRoll = roil.FileRoll
   , File = roil.File
   , path = require("path")
   , EventEmitter = require("events").EventEmitter

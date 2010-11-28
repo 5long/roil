@@ -1,28 +1,28 @@
 var lml = require("./lml")
-  , FileRoll = require("./file-roll")
+  , Resource = require("./resource")
   , File = require("./file")
   , path = require("path")
 
 function Workspace(dir) {
   this._workDir = dir
   this._watchers = []
-  this._pages = {}
+  this._resources = {}
   this._servers = []
 }
 lml.inherits(Workspace, lml.EventEmitter)
 
 lml.def(Workspace.prototype, {
   open: function(relPath) {
-    var page = new FileRoll()
+    var page = new Resource()
       , absPath = path.join(this._workDir, relPath)
       , file = File.new(absPath)
     page.add(file)
-    this._pages[file.path] = page
+    this._resources[file.path] = page
     return page
   }
 , useWatcher: function(watcher) {
     watcher.on("relate", function(e) {
-      var parent = this._pages[e.belongTo]
+      var parent = this._resources[e.belongTo]
       if (parent) parent.add(File.new(e.path))
     }.bind(this))
     this._servers.forEach(function(server) {

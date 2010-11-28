@@ -16,7 +16,7 @@ var reut = require("reut")
       }
     }
 
-reut.suite("RollUnit")
+reut.suite("File")
 .setup(function(f, done) {
   f.path = __dirname + "/../Makefile"
   f.fullpath = path.normalize(f.path)
