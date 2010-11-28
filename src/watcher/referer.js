@@ -3,12 +3,12 @@ var lml = require("../lml")
   , path = require("path")
   , url = require("url")
 
-function StaticWatcher(baseDir) {
+function RefererWatcher(baseDir) {
   this._baseDir = baseDir
 }
-lml.inherits(StaticWatcher, EventEmitter)
+lml.inherits(RefererWatcher, EventEmitter)
 
-lml.def(StaticWatcher.prototype, {
+lml.def(RefererWatcher.prototype, {
   get closure() {
     this._closure = this._closure || function(request, response) {
       var served = { path: path.join(this._baseDir, request.url) }
@@ -22,4 +22,4 @@ lml.def(StaticWatcher.prototype, {
   }
 })
 
-module.exports = StaticWatcher
+module.exports = RefererWatcher
