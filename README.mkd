@@ -1,12 +1,17 @@
 # Intro
 
-Roil fires up an HTTP server which could monitor changes of files and
-notify opted-in browser clients to refresh the webpage so you don't have to
-press F5 each time you saved file.
+Roil is an HTTP server written in [node.js](http://nodejs.org) which could
+monitor changes of files and notify opted-in browser clients to refresh the
+webpage so you don't have to press F5 each time you saved file.
 
 ## Installation
 
-Using `npm`:
+If you are new to node.js world [this
+snippet](https://gist.github.com/579814) should get you started. For
+Windows users: node.js could run in [cygwin](http://www.cygwin.com)
+environment.
+
+Install `roil` with `npm`:
 
     $ npm install roil
 
