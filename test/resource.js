@@ -5,7 +5,8 @@ var reut = require("reut")
 reut.suite("Resource")
 .setup(function(f, done) {
   f.url = "/foo"
-  var res = f.res = new Resource(f.url)
+  var res = f.res = Resource.new(f.url)
+  f.anotherRes = Resource.new(f.url)
   f.file = require("./fixture/file").f
   res.add(f.file)
   done()
@@ -16,6 +17,7 @@ reut.suite("Resource")
 })
 .test("identified by url", function(t, f) {
   t.equal(f.res, "Resource: " + f.url, "toString()")
+  t.is(f.anotherRes, f.res)
 })
 .test("works like a set", function(t, f) {
   var res = f.res

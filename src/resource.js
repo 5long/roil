@@ -6,6 +6,12 @@ function Resource(url) {
   this._changeHandlers = {}
 }
 
+Resource.instances = {}
+Resource.new = function(url) {
+  return Resource.instances[url] = Resource.instances[url] ||
+    new Resource(url)
+}
+
 lml.inherits(Resource, lml.EventEmitter)
 
 lml.def(Resource.prototype, {
