@@ -12,16 +12,16 @@ var reut = require("reut")
 
 reut.suite("RefererWatcher Class")
 .setup(function(f, done) {
-  f.sp = new RefererWatcher(__dirname)
+  f.rw = new RefererWatcher()
   done()
 })
 .test("Parse request", function(t, f) {
-  var sp = f.sp
-    , closure = sp.closure
+  var rw = f.rw
+    , closure = rw.closure
   t.typeOf(closure, "function")
-  t.emits(sp, "relate", function(file) {
-    t.equal(file.path, __filename)
-    t.equal(file.belongTo, path.join(__dirname, "/bar"))
+  t.emits(rw, "relate", function(event) {
+    t.equal(event.resource.url, fakeRequest.url)
+    t.equal(event.belongTo.url, "/bar")
   })
   closure(fakeRequest)
 })

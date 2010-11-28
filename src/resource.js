@@ -38,6 +38,9 @@ lml.def(Resource.prototype, {
 , toString: function() {
     return "Resource: " + this._url
   }
+, get url() {
+    return this._url
+  }
 })
 
 module.exports = Resource
