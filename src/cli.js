@@ -2,7 +2,7 @@
 var Console = require("./console")
   , arg, options = {
       workDir: process.cwd()
-    , consolePath: "/roil"
+    , consolePath: "/roil/"
     , port : 3000
     }
   , args = process.argv.slice(2)
