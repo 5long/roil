@@ -1,13 +1,15 @@
 var reut = require("reut")
   , roil = require("../src")
   , Workspace = roil.Workspace
+  , Resource = roil.Resource
   , File = roil.File
   , path = require("path")
   , EventEmitter = require("events").EventEmitter
 
 reut.suite("Workspace Class")
 .setup(function(f, done) {
-  f.ws = new Workspace(__dirname)
+  f.ws = new Workspace()
+  f.path = "/" + path.basename(__filename)
   done()
 })
 .setup(function(f, done) {
@@ -16,12 +18,9 @@ reut.suite("Workspace Class")
   done()
 })
 .test(".open()", function(t, f) {
-  var page = f.ws.open(path.basename(__filename))
+  var page = f.ws.open(f.path)
   t.typeOf(page.on, "function")
-  t.emits(page, "change", function() {
-    File.new(__filename).watchStop()
-  })
-  File.new(__filename).emit("change")
+  t.equal(page, Resource.new(f.path))
 })
 .test(".addServer()", function(t, f) {
   var ws = f.ws
@@ -34,19 +33,14 @@ reut.suite("Workspace Class")
   })
 })
 .setup(function(f, done) {
-  f.parent = File.new(path.join(__dirname, "/foo"))
-  f.child = File.new(path.join(__dirname, "/bar"))
-  done()
-})
-.teardown(function(f, done) {
-  f.parent.watchStop()
-  f.child.watchStop()
+  f.parent = Resource.new("/baz")
+  f.child = Resource.new("/bar")
   done()
 })
 .test(".useWatcher()", function(t, f) {
   var ws = f.ws
     , watcher = f.fakeWatcher
-    , page = ws.open("/foo")
+    , page = ws.open("/baz")
     , parent = f.parent
     , child = f.child
 
@@ -56,7 +50,7 @@ reut.suite("Workspace Class")
   })
 
   watcher.emit("relate", {
-    path: child.path
-  , belongTo: parent.path
+    resource: child
+  , belongTo: parent
   })
 })

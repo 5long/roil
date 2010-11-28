@@ -3,8 +3,7 @@ var lml = require("./lml")
   , File = require("./file")
   , path = require("path")
 
-function Workspace(dir) {
-  this._workDir = dir
+function Workspace() {
   this._watchers = []
   this._resources = {}
   this._servers = []
@@ -13,17 +12,14 @@ lml.inherits(Workspace, lml.EventEmitter)
 
 lml.def(Workspace.prototype, {
   open: function(relPath) {
-    var page = new Resource()
-      , absPath = path.join(this._workDir, relPath)
-      , file = File.new(absPath)
-    page.add(file)
-    this._resources[file.path] = page
-    return page
+    var resource = Resource.new(relPath)
+    this._resources[resource] = resource
+    return resource
   }
 , useWatcher: function(watcher) {
     watcher.on("relate", function(e) {
       var parent = this._resources[e.belongTo]
-      if (parent) parent.add(File.new(e.path))
+      if (parent) parent.add(e.resource)
     }.bind(this))
     this._servers.forEach(function(server) {
       server.on("request", watcher.closure)
