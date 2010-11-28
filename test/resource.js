@@ -29,11 +29,12 @@ reut.suite("Resource")
 .test("forwarding event", function(t, f) {
   t.timeout = 15
   t.ok(f.file.watching)
+  f.res.watchStart()
   t.emits(f.res, "change", function(file) {
     t.strictEqual(file, f.file, "just that file")
   })
 
-  f.file.emit("change")
+  f.file.emit("change", f.file)
 })
 .test("not forwarding event when deleted", function(t, f) {
   f.res.del(f.file)

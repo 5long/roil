@@ -15,7 +15,8 @@ reut.suite("User Class")
   }
   f.u = new User(f.transport)
   f.u.use(f.workspace)
-  f.url = "http://foo.bar.org/"
+  f.url = "/"
+  f.resource.url = f.url
   done()
 })
 .test("forward open action from transport", function(t, f) {
@@ -24,6 +25,7 @@ reut.suite("User Class")
     t.is(url, parse(f.url).pathname)
     return wsOpen.apply(this, arguments)
   })
+  f.resource.watchStart = t.cb()
   f.transport.emit("message", {
     action: 'open'
   , url: f.url
@@ -34,6 +36,7 @@ reut.suite("User Class")
     t.equal(msg.type, "change")
     t.equal(msg.url, f.url)
   })
-  f.u._addPage(f.resource, f.url)
+  f.resource.watchStart = t.cb()
+  f.u._addPage(f.resource)
   f.resource.emit("change")
 })

@@ -11,14 +11,15 @@ lml.def(User.prototype, {
   use: function(ws) {
     this._workspace = ws
   }
-, _addPage: function(page, url) {
-    this._pages[url] = page
+, _addPage: function(page) {
+    this._pages[page] = page
     page.on("change", function() {
       this._transport.send({
         type: "change"
-      , url: url
+      , url: page.url
       })
     }.bind(this))
+    page.watchStart()
   }
 , _onClientMessage: function(msg) {
     if (msg.action != "open") return

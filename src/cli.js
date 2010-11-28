@@ -44,4 +44,7 @@ if (options.debug) {
       console.log(msg)
     })
   })
+  process.on("uncaughtException", function(e) {
+    console.log(e.stack || e.message)
+  })
 }

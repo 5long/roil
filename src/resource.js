@@ -3,7 +3,7 @@ var lml = require("./lml")
 function Resource(url) {
   this._url = url
   this._children = {}
-  this._changeHandlers = {}
+  this._changeHandler = this._onChange.bind(this)
 }
 
 Resource.instances = {}
@@ -17,10 +17,9 @@ lml.inherits(Resource, lml.EventEmitter)
 lml.def(Resource.prototype, {
   add: function(child) {
     if (this.has(child)) return
+    if (child == this) return
     this._children[child] = child
-    var changeHandler = this._onChange.bind(this, child)
-    this._changeHandlers[child] = changeHandler
-    child.on("change", changeHandler)
+    child.on("change", this._changeHandler)
     child.watchStart()
   }
 , has: function(child) {
@@ -28,18 +27,27 @@ lml.def(Resource.prototype, {
   }
 , del: function(child) {
     if (!this.has(child)) return
-    child.removeListener("change", this._changeHandlers[child])
+    child.removeListener("change", this._changeHandler)
     delete this._children[child]
-    delete this._changeHandlers[child]
   }
-, _onChange: function(child, current, prev) {
-    this.emit("change", child, current, prev)
+, _onChange: function(target) {
+    if (!this.watching) return
+    this.emit("change", target || this)
   }
 , toString: function() {
     return "Resource: " + this._url
   }
 , get url() {
     return this._url
+  }
+, watchStart: function() {
+    this._watching = true
+  }
+, watchStop: function() {
+    this._watching = false
+  }
+, get watching() {
+    return this._watching
   }
 })
 

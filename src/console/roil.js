@@ -5,10 +5,9 @@ var s = new io.Socket()
 s.connect()
 s.on("message", function(msg) {
   var e
-  console.log(msg)
   try {msg = JSON.parse(msg)}
   catch (e) {return}
-  if (msg.type == "change") refresh(msg.url)
+  if (msg && msg.type == "change") refresh(msg.url)
 })
 
 function start(url) {

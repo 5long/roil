@@ -31,7 +31,7 @@ lml.def(File.prototype, {
     if (this._watching) return
     this._watching = true
     this._watchModule.watchFile(this._path, function(current, prev) {
-      this.emit("change", current, prev)
+      this.emit("change", this)
     }.bind(this))
   }
 
