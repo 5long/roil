@@ -1,23 +1,31 @@
-var s = new io.Socket()
-  , pages = {}
-  , latest = null
-
-s.connect()
-
-function Page(url) {
-  var self = this
+function Page(url, backend, opener) {
+  Y.EventTarget.call(this)
+  if (Page.pages.hasOwnProperty(url)) return Page.pages[url]
+  var self = Page.pages[url] = Page.latest = this
   this.url = url
-  pages[url] = latest = this
+  this.backend = backend || new io.Socket()
+  this.opener = opener || window
+  this.opened = false
+
   this.backend.on("message", function(msg) {
-    msg = JSON.parse(msg)
+    try { msg = JSON.parse(msg) }
+    catch (e) { Y.log("Parse error on message:", msg) }
     if (msg && msg.type == "change") self.refresh()
   })
 }
 
-Page.prototype = {
-  backend: s
-, open: function() {
-    this.window = window.open(this.url)
+Y.extend(Page, Y.EventTarget, {
+  open: function() {
+    if (this.opened) return this.focus()
+    this.opened = true
+    this.window = this.opener.open(this.url)
+    this.timer = Y.later(100, this, function() {
+      if (!this.window.closed) return
+      this.fire("close")
+      this.close()
+      this.timer.cancel()
+    }, [], true)
+
     this.backend.send(JSON.stringify({
       action: "open"
     , url: this.url
@@ -27,34 +35,54 @@ Page.prototype = {
     this.window.location.reload()
   }
 , close: function() {
+    if (!this.opened) return
     this.window.close()
+    this.opened = false
   }
 , focus: function() {
     this.window.focus()
   }
 , toElement: function() {
-    var frag = document.createDocumentFragment()
-      , text = document.createTextNode()
-    text.nodeValue = this.url
-    frag.appendChild(text)
-    return frag
+    var self = this
+    this.elem = this.elem
+      || Y.Node.create("<li>" + this.url)
+          .set("title", "Click to close this page")
+          .addClass("pageItem")
+    return this.elem
   }
-}
+}, {
+  latest: null
+, pages: {}
+})
 
-window.onload = function roilInit() {
-  var btn = document.getElementById("submitUrl")
-    , urlInput = document.getElementById("url")
-    , pageList = document.getElementById("pages")
+Y.on("load", function roilInit() {
+  var btn = Y.one("#submitUrl")
+    , urlInput = Y.one("#url")
+    , pageList = Y.one("#pages")
+    , pages = Page.pages
+    , socket = new io.Socket()
+
   if (!btn || !urlInput) return
-  btn.onclick = function() {
-    var url = urlInput.value.replace(/^\s+|\s+$/)
+
+  socket.connect()
+  btn.on("click", openPage)
+  urlInput.on("keypress", function(e) {
+    if (e.keyCode == 13) openPage()
+  })
+
+  function openPage() {
+    var url = urlInput.get("value").replace(/^\s+|\s+$/)
       , page, pageElem
     if (url[0] !== "/") url = "/" + url
-    if (url in pages) return
-    page = pages[url] = new Page(url)
+    page = new Page(url, socket)
     page.open()
-    pageElem = document.createElement("li")
-    pageElem.appendChild(page.toElement())
-    pageList.appendChild(pageElem)
+    pageElem = page.toElement()
+    pageList.append(pageElem)
+    pageElem.on("click", function() {
+      page.close()
+    })
+    page.on("close", function() {
+      pageElem.remove()
+    })
   }
-}
+})
