@@ -41,7 +41,7 @@ lml.def(Console.prototype, {
           root: options.workDir || process.cwd()
         }
       , consoleOpt = {
-          pathHead: options.consolePath || "/roil"
+          pathHead: options.consolePath || "/roil/"
         , root: path.join(__dirname, "console")
         }
     if (server.use) {

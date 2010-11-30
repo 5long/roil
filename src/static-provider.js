@@ -39,6 +39,8 @@ module.exports = function staticProvider(options){
 
     if (relPath.indexOf(pathHead) === 0) {
       relPath = relPath.slice(pathHead.length)
+    } else {
+      return next()
     }
 
     filename = Path.join(root, relPath)
