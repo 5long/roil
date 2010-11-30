@@ -63,6 +63,16 @@ while (arg = args.shift()) {
 c.attach(server, options)
 server.listen(options.port)
 
+console.log(
+  "Roil server started on http://localhost:"
++ options.port
++ options.consolePath
+)
+console.log(
+  "Document root is"
+, options.workDir
+)
+
 if (options.debug) {
   console.log(options)
   var context = require("repl").start().context
