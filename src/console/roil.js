@@ -20,7 +20,7 @@ Y.extend(Page, Y.EventTarget, {
     this.opened = true
     this.window = this.opener.open(this.url)
     this.timer = Y.later(100, this, function() {
-      if (!this.window.closed) return
+      if (this.window && !this.window.closed) return
       this.fire("close")
       this.close()
       this.timer.cancel()
@@ -32,14 +32,18 @@ Y.extend(Page, Y.EventTarget, {
     }))
   }
 , refresh: function() {
+    if (!this.opened) return
     this.window.location.reload()
   }
 , close: function() {
     if (!this.opened) return
-    this.window.close()
+    try { this.window.close() }
+    catch (e) {}
+    delete this.window
     this.opened = false
   }
 , focus: function() {
+    if (!this.opened) return
     this.window.focus()
   }
 , toElement: function() {
@@ -87,9 +91,9 @@ Y.on("load", function roilInit() {
   })
 
   function openPage() {
-    var url = urlInput.get("value").replace(/^\s+|\s+$/)
+    var url = urlInput.get("value").replace(/^\s+|\s+$/g)
       , page, pageElem
-    if (url[0] !== "/") url = "/" + url
+    if (url.slice(0, 1) !== "/") url = "/" + url
     page = new Page(url, socket)
     page.open()
     pageElem = page.toElement()
