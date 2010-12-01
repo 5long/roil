@@ -61,10 +61,26 @@ Y.on("load", function roilInit() {
     , pageList = Y.one("#pages")
     , pages = Page.pages
     , socket = new io.Socket()
+    , notification = Y.one("#notification")
 
   if (!btn || !urlInput) return
 
   socket.connect()
+  notification.set("innerHTML", "Connecting to server")
+  socket.on("connect", function S() {
+    this.removeEvent("connect", S)
+    notification.set("innerHTML", "")
+    socket.on("disconnect", function() {
+      notification.set(
+        "innerHTML"
+      , "Connection lost, all pages closed for you"
+      )
+      Y.each(Page.pages, function(page) {
+        page.close()
+      })
+    })
+  })
+
   btn.on("click", openPage)
   urlInput.on("keypress", function(e) {
     if (e.keyCode == 13) openPage()

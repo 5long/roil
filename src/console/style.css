@@ -1,3 +1,7 @@
 .pageItem {
   cursor: pointer;
 }
+
+#notification {
+  color: red;
+}
