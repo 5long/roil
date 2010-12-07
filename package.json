@@ -10,6 +10,7 @@
 , "devDependencies": {"reut": ">=0.1.1"}
 , "engines": {"node": ">=0.2.0"}
 , "homepage": "http://github.com/5long/roil"
+, "keywords": ["development", "live preview"]
 , "licenses":
   [ { "type": "MIT"
     , "url": "http://github.com/5long/roil/raw/master/LICENSE"
@@ -22,5 +23,5 @@
   , "url": "http://github.com/5long/roil.git"
   }
 , "scripts": { "test": "make test-all" }
-, "version": "0.1.1"
+, "version": "0.1.1-1"
 }
