@@ -7,8 +7,8 @@ var Console = require("./console")
     , debug: false
     }
   , args = process.argv.slice(2)
-  , connect = require("connect")
-  , server = connect.createServer()
+  , http = require("http")
+  , server = http.createServer()
   , c = new Console()
   , helpMessage =
     [ "Usage: roil [options]"
