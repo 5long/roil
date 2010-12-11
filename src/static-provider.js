@@ -38,7 +38,8 @@ module.exports = function staticProvider(options){
       , filename
 
     if (relPath.indexOf(pathHead) === 0) {
-      relPath = relPath.slice(pathHead.length)
+      // Leading slash should be preserved.
+      relPath = relPath.slice(pathHead.length).replace(/^(?=[^\/]|$)/, "/")
     } else {
       return next()
     }
