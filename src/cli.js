@@ -5,9 +5,11 @@ var Console = require("./console")
     , consolePath: "/roil/"
     , port: 8913
     , debug: false
+    , browserBins: []
     }
   , args = process.argv.slice(2)
   , http = require("http")
+  , exec = require("child_process").exec
   , server = http.createServer()
   , c = new Console()
   , helpMessage =
@@ -18,6 +20,9 @@ var Console = require("./console")
     , ""
     , "  -p <port>, --port <port>"
     , "    port to listen, 8913 by default"
+    , ""
+    , "  -b <bin>, --launch-browser <bin>"
+    , "    launch browser(s) to open console path"
     , ""
     , "  -d <path>, --work-dir <path>"
     , "    document root for this HTTP server, cwd is used by default"
@@ -44,6 +49,10 @@ while (arg = args.shift()) {
     case "--console-path":
       options.consolePath = args.shift()
       break;
+    case "-b":
+    case "--launch-browser":
+      options.browserBins.push(args.shift())
+      break;
     case "--debug":
       options.debug = true
       break;
@@ -56,17 +65,26 @@ while (arg = args.shift()) {
       console.log(helpMessage)
       process.exit(1)
     default:
-      throw new Error("Unknown argument: " + arg)
+      console.log("Unknown argument:", arg)
+      process.exit(1)
   }
 }
 
 c.attach(server, options)
 server.listen(options.port)
 
+var consolePath = "http://localhost:" + options.port + options.consolePath
+
+options.browserBins.forEach(function(bin) {
+  exec(bin + " " + consolePath, function(err) {
+    if (err) console.error(err.message)
+    else console.log("Lauched browser", bin)
+  })
+})
+
 console.log(
-  "Roil server started on http://localhost:"
-+ options.port
-+ options.consolePath
+  "Roil server started on"
+, consolePath
 )
 console.log(
   "Document root is"
