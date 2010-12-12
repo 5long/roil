@@ -21,8 +21,7 @@ In your working directory:
 
     $ ls
     bar.css  foo.html
-    $ roil &
-    $ firefox http://localhost:8913/roil/
+    $ roil -b firefox & # Assume you've got firefox in your $PATH
 
 Then in the opened page, enter `foo.html` and click the open button.
 Now you can edit `foo.html` and see your browser automatically refresh
@@ -32,8 +31,12 @@ If there's a `<link>` tag in `foo.html` referring to `bar.css`, the roil
 server would take care of this (by checking HTTP header) so changing
 `bar.css` also notifies your browser to refresh.
 
+`roil -h` would help you.
+
 ## TODO
 
+* Push URL to browser(s)
+* Open in iframe
 * Documentation
 * Supporting PHP would be fine
 * Provide an simple interface to define custom file-to-url rules
