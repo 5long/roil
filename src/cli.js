@@ -42,22 +42,22 @@ while (arg = args.shift()) {
     case "-d":
     case "--work-dir":
       options.workDir = args.shift()
-      break;
+      break
     case "-p":
     case "--port":
       options.port = parseInt(args.shift(), 10)
-      break;
+      break
     case "-c":
     case "--console-path":
       options.consolePath = args.shift()
-      break;
+      break
     case "-b":
     case "--launch-browser":
       options.browserBins.push(args.shift())
-      break;
+      break
     case "--debug":
       options.debug = true
-      break;
+      break
     case "-v":
     case "--version":
       var version = JSON.parse(
