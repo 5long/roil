@@ -9,6 +9,8 @@ var Console = require("./console")
     }
   , args = process.argv.slice(2)
   , http = require("http")
+  , fs = require("fs")
+  , path = require("path")
   , exec = require("child_process").exec
   , server = http.createServer()
   , c = new Console()
@@ -58,7 +60,12 @@ while (arg = args.shift()) {
       break;
     case "-v":
     case "--version":
-      console.log("roil v0.1.0")
+      var version = JSON.parse(
+            fs.readFileSync(
+              path.join(__dirname, "../package.json")
+            )
+          ).version
+      console.log(version)
       process.exit()
     case "-h":
     case "--help":
