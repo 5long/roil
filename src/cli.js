@@ -85,7 +85,6 @@ var consolePath = "http://localhost:" + options.port + options.consolePath
 options.browserBins.forEach(function(bin) {
   exec(bin + " " + consolePath, function(err) {
     if (err) console.error(err.message)
-    else console.log("Lauched browser", bin)
   })
 })
 
