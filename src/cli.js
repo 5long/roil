@@ -8,11 +8,11 @@ var Console = require("./console")
     , browserBins: []
     }
   , args = process.argv.slice(2)
-  , http = require("http")
   , fs = require("fs")
   , path = require("path")
   , exec = require("child_process").exec
-  , server = http.createServer()
+  , connect = require("connect")
+  , server = connect.createServer()
   , c = new Console()
   , helpMessage =
     [ "Usage: roil [options]"
