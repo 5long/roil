@@ -4,7 +4,7 @@
 , "bin": {"roil": "./src/cli.js"}
 , "description": "Watch file change and notify browser"
 , "dependencies":
-  { "connect": ">=0.2.7"
+  { "connect": ">= 0.5.4"
   , "socket.io": ">= 0.6.0"
   }
 , "devDependencies": {"reut": ">=0.1.1"}

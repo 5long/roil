@@ -6,7 +6,8 @@ var roil = require("./index.js")
   , Workspace = roil.Workspace
   , watcher = require("./watcher")
   , path = require("path")
-  , staticProvider = require("./static-provider")
+  , connect = require("connect")
+  , staticProvider = connect.staticProvider
 
 function Console(workDir, workspace) {
   this._workDir = workDir || process.cwd()
@@ -37,21 +38,22 @@ util.def(Console.prototype, {
   }
 , _attachStaticProvider: function(server, options) {
     options = options || {}
-    var workingOpt = {
-          root: options.workDir || process.cwd()
+    var documentRoot = options.workDir || process.cwd()
+      , consolePath = options.consolePath || "/roil/"
+      , consoleDocRoot = path.join(__dirname, "console")
+      , consoleSP = staticProvider(consoleDocRoot)
+      , leadingPath = new RegExp(consolePath + "(.*)$")
+    server.use(connect.router(function(app) {
+      app.get(leadingPath, function(req, res, next) {
+        var trailingPath = req.params[0]
+        if (trailingPath.charAt(0) != "/") {
+          trailingPath = "/" + trailingPath
         }
-      , consoleOpt = {
-          pathHead: options.consolePath || "/roil/"
-        , root: path.join(__dirname, "console")
-        }
-    if (server.use) {
-      server.use(staticProvider(consoleOpt))
-      server.use(staticProvider(workingOpt))
-    }
-    else {
-      server.on("request", staticProvider(consoleOpt))
-      server.on("request", staticProvider(workingOpt))
-    }
+        req.url = trailingPath
+        consoleSP.call(this, req, res, next)
+      })
+    }))
+    server.use(staticProvider(documentRoot))
     this._workspace.addServer(server)
   }
 })
