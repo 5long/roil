@@ -1,4 +1,4 @@
-var lml = require("./lml")
+var util = require("./util")
   , url = require("url")
 
 function User(transport) {
@@ -7,7 +7,7 @@ function User(transport) {
   transport.on("message", this._onClientMessage.bind(this))
 }
 
-lml.def(User.prototype, {
+util.def(User.prototype, {
   use: function(ws) {
     this._workspace = ws
   }

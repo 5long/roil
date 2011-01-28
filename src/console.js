@@ -1,5 +1,5 @@
 var roil = require("./index.js")
-  , lml = require("./lml")
+  , util = require("./util")
   , socketIo = require("socket.io")
   , Client = roil.Client
   , User = roil.User
@@ -14,7 +14,7 @@ function Console(workDir, workspace) {
   this._users = []
   this._prepareWorkspace(this._workspace)
 }
-lml.def(Console.prototype, {
+util.def(Console.prototype, {
   _prepareWorkspace: function(ws) {
     ws.useWatcher(new watcher.Referer())
     ws.useWatcher(new watcher.Static(this._workDir))

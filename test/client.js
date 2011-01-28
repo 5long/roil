@@ -1,7 +1,7 @@
 var reut = require("reut")
   , roil = require("../src")
   , Client = roil.Client
-  , EventEmitter = require("../src/lml").EventEmitter
+  , EventEmitter = require("../src/util").EventEmitter
   , sampleMessage = {
       action: 'open'
     , url: 'blah'

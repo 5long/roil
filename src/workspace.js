@@ -1,4 +1,4 @@
-var lml = require("./lml")
+var util = require("./util")
   , Resource = require("./resource")
   , File = require("./file")
   , path = require("path")
@@ -8,9 +8,9 @@ function Workspace() {
   this._resources = {}
   this._servers = []
 }
-lml.inherits(Workspace, lml.EventEmitter)
+util.inherits(Workspace, util.EventEmitter)
 
-lml.def(Workspace.prototype, {
+util.def(Workspace.prototype, {
   open: function(relPath) {
     this._resources[relPath] = this._resources[relPath]
       || Resource.new(relPath)

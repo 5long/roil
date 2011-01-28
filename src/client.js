@@ -1,4 +1,4 @@
-var lml = require("./lml")
+var util = require("./util")
 
 function Client(socket) {
   var self = this
@@ -10,9 +10,9 @@ function Client(socket) {
   })
   this._socket = socket
 }
-lml.inherits(Client, lml.EventEmitter)
+util.inherits(Client, util.EventEmitter)
 
-lml.def(Client.prototype, {
+util.def(Client.prototype, {
   send: function(msg) {
     this._socket.send(JSON.stringify(msg))
   }

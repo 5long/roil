@@ -1,4 +1,4 @@
-var lml = require("./lml")
+var util = require("./util")
 
 function Resource(url) {
   this._url = url
@@ -12,9 +12,9 @@ Resource.new = function(url) {
     new Resource(url)
 }
 
-lml.inherits(Resource, lml.EventEmitter)
+util.inherits(Resource, util.EventEmitter)
 
-lml.def(Resource.prototype, {
+util.def(Resource.prototype, {
   add: function(child) {
     if (this.has(child)) return
     if (child == this) return

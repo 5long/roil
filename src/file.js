@@ -1,5 +1,5 @@
-var lml = require('./lml')
-  , isFunc = lml.isFunc
+var util = require('./util')
+  , isFunc = util.isFunc
   , path = require("path")
   , fs = require("fs")
   , all = {}
@@ -24,9 +24,9 @@ File.normalizePath = function(p) {
 
 File.absolutePath = /^\//
 
-lml.inherits(File, lml.EventEmitter)
+util.inherits(File, util.EventEmitter)
 
-lml.def(File.prototype, {
+util.def(File.prototype, {
   watchStart: function() {
     if (this._watching) return
     this._watching = true

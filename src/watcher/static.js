@@ -1,4 +1,4 @@
-var lml = require("../lml")
+var util = require("../util")
   , Resource = require("../resource")
   , File = require("../file")
   , EventEmitter = require("events").EventEmitter
@@ -7,9 +7,9 @@ var lml = require("../lml")
 function StaticWatcher(baseDir) {
   this._baseDir = baseDir
 }
-lml.inherits(StaticWatcher, EventEmitter)
+util.inherits(StaticWatcher, EventEmitter)
 
-lml.def(StaticWatcher.prototype, {
+util.def(StaticWatcher.prototype, {
   get closure() {
     this._closure = this._closure || function(request, response) {
       var absPath = path.join(this._baseDir, request.url)

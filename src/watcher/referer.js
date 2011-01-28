@@ -1,13 +1,13 @@
-var lml = require("../lml")
+var util = require("../util")
   , Resource = require("../resource")
   , EventEmitter = require("events").EventEmitter
   , path = require("path")
   , url = require("url")
 
 function RefererWatcher() {}
-lml.inherits(RefererWatcher, EventEmitter)
+util.inherits(RefererWatcher, EventEmitter)
 
-lml.def(RefererWatcher.prototype, {
+util.def(RefererWatcher.prototype, {
   get closure() {
     this._closure = this._closure || function(request, response) {
       if (!("referer" in request.headers)) return
