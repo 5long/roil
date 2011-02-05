@@ -13,6 +13,18 @@ var spawn = require("child_process").spawn
     , php: "php-cgi"
     }
 
+exports.handler = cgiHandler
+exports.preset = Object.keys(defaultBin).reduce(function(preset, ext) {
+  preset[ext] = function(conf) {
+    conf = extend({
+      ext: ext
+    , bin: defaultBin[ext]
+    }, conf)
+    return cgiHandler(conf)
+  }
+  return preset
+}, {})
+
 function cgiHandler(conf) {
   conf = conf || {}
 
@@ -68,18 +80,6 @@ function cgiHandler(conf) {
     })
   }
 }
-
-exports.handler = cgiHandler
-exports.preset = Object.keys(defaultBin).reduce(function(preset, ext) {
-  preset[ext] = function(conf) {
-    conf = extend({
-      ext: ext
-    , bin: defaultBin[ext]
-    }, conf)
-    return cgiHandler(conf)
-  }
-  return preset
-}, {})
 
 function cgiPump(readStream, res) {
   var headerDone = false
