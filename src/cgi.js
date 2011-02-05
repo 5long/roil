@@ -71,6 +71,7 @@ function cgiHandler(conf) {
       , SERVER_PROTOCOL: "HTTP/" + req.httpVersion
       , REQUEST_URI: req.url
       })
+      extend(finalMeta, headerToMeta(req.headers))
 
       app = cgiBin
         ? spawn(cgiBin, [scriptName], finalMeta)
@@ -111,4 +112,14 @@ function cgiPump(readStream, res) {
     res.writeHead(status, headers)
     res.write(firstBody)
   })
+}
+
+function headerToMeta(headers) {
+  var meta = {}
+    , metaKey, key
+  for (key in headers) {
+    metaKey = "HTTP_" + key.replace(/-/g, "_").toUpperCase()
+    meta[metaKey] = headers[key]
+  }
+  return meta
 }
