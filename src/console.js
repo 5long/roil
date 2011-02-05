@@ -55,7 +55,7 @@ util.def(Console.prototype, {
       })
     }))
     for (var i in cgi.preset) {
-      server.use(cgi.preset[i])
+      server.use(cgi.preset[i]({root: documentRoot}))
     }
     server.use(staticProvider(documentRoot))
     this._workspace.addServer(server)

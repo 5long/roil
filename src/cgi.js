@@ -16,7 +16,7 @@ var spawn = require("child_process").spawn
 function cgiHandler(conf) {
   conf = conf || {}
 
-  var docRoot = conf.docRoot || process.cwd()
+  var root = conf.root || process.cwd()
     , ext = conf.ext
   if (!ext) {
     throw new Error("Must specify a file extension for CGI middleware")
@@ -40,7 +40,7 @@ function cgiHandler(conf) {
 
     if (!extMatch.test(pathname)) return next()
 
-    scriptName = Path.join(docRoot, pathname)
+    scriptName = Path.join(root, pathname)
 
     fs.stat(scriptName, function(err, stat) {
       if (err || !stat.isFile()) return next()
@@ -53,7 +53,7 @@ function cgiHandler(conf) {
         SCRIPT_NAME: pathname
       , QUERY_STRING: url.query || CGI_NULL
       , SCRIPT_FILENAME: scriptName
-      , DOCUMENT_ROOT: docRoot
+      , DOCUMENT_ROOT: root
       , REQUEST_METHOD: req.method
       , REMOTE_ADDRESS: req.connection.remoteAddress
       , SERVER_PROTOCOL: "HTTP/" + req.httpVersion
@@ -71,10 +71,13 @@ function cgiHandler(conf) {
 
 exports.handler = cgiHandler
 exports.preset = Object.keys(defaultBin).reduce(function(preset, ext) {
-  preset[ext] = cgiHandler({
-    ext: ext
-  , bin: defaultBin[ext]
-  })
+  preset[ext] = function(conf) {
+    conf = extend({
+      ext: ext
+    , bin: defaultBin[ext]
+    }, conf)
+    return cgiHandler(conf)
+  }
   return preset
 }, {})
 
