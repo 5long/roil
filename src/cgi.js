@@ -68,6 +68,7 @@ function cgiHandler(conf) {
       , DOCUMENT_ROOT: root
       , REQUEST_METHOD: req.method
       , REMOTE_ADDRESS: req.connection.remoteAddress
+      , REMOTE_PORT: req.connection.remotePort
       , SERVER_PROTOCOL: "HTTP/" + req.httpVersion
       , REQUEST_URI: req.url
       })
