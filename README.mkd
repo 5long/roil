@@ -33,11 +33,6 @@ server would take care of this (by checking HTTP header) so changing
 
 `roil -h` would help you.
 
-## TODO
+## Contribution
 
-* Push URL to browser(s)
-* Open in iframe
-* Documentation
-* Supporting PHP would be fine
-* Provide an simple interface to define custom file-to-url rules
-* Built in file-to-url rules for popular webdev frameworks (Rails?)
+Patches welcome, See `TODO`.
