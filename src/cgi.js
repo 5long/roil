@@ -28,13 +28,13 @@ exports.preset = Object.keys(defaultBin).reduce(function(preset, ext) {
 function cgiHandler(conf) {
   conf = conf || {}
 
-  var root = conf.root || process.cwd()
-    , ext = conf.ext
+  var ext = conf.ext
   if (!ext) {
     throw new Error("Must specify a file extension for CGI middleware")
   }
 
   var extMatch = new RegExp("\." + ext + "$")
+    , root = conf.root || process.cwd()
     , cgiBin = conf.bin
     , indexScript = "index." + ext
     , sharedMeta = {
@@ -42,6 +42,13 @@ function cgiHandler(conf) {
       , REDIRECT_STATUS: "200"
       , DOCUMENT_ROOT: root
       }
+    , exec = cgiBin
+        ? function(script, meta) {
+            return spawn(cgiBin, [script], meta)
+          }
+        : function(script, meta) {
+            return spawn(script, [], meta)
+          }
 
   return function(req, res, next) {
     var url = Url.parse(req.url)
@@ -88,9 +95,7 @@ function cgiHandler(conf) {
         })
       }
 
-      app = cgiBin
-        ? spawn(cgiBin, [scriptName], finalMeta)
-        : spawn(scriptName, [], finalMeta)
+      app = exec(scriptName, finalMeta)
 
       if (contentLength) {
         buffer.forEach(function(chunk) {
@@ -99,9 +104,6 @@ function cgiHandler(conf) {
         util.pump(req, app.stdin)
       }
       cgiPump(app.stdout, res)
-      app.stderr.on("data", function(chunk) {
-        console.log(chunk.toString())
-      })
     })
   }
 }
