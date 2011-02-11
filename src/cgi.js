@@ -45,7 +45,9 @@ function cgiHandler(conf) {
   return function(req, res, next) {
     var url = Url.parse(req.url)
       , pathname = url.pathname
+      , buffer = []
       , scriptName
+
     if (pathname.charAt(pathname.length - 1) == "/") {
       pathname += indexScript
     }
@@ -53,6 +55,10 @@ function cgiHandler(conf) {
     if (!extMatch.test(pathname)) return next()
 
     scriptName = Path.join(root, pathname)
+
+    req.on("data", function(chunk) {
+      buffer.push(chunk)
+    })
 
     fs.stat(scriptName, function(err, stat) {
       if (err || !stat.isFile()) return next()
@@ -74,11 +80,28 @@ function cgiHandler(conf) {
       })
       extend(finalMeta, headerToMeta(req.headers))
 
+      var contentLength = req.headers['content-length']
+      if (contentLength) {
+        extend(finalMeta, {
+          CONTENT_LENGTH: contentLength
+        , CONTENT_TYPE: req.headers['content-type'] || "text/plain"
+        })
+      }
+
       app = cgiBin
         ? spawn(cgiBin, [scriptName], finalMeta)
         : spawn(scriptName, [], finalMeta)
 
+      if (contentLength) {
+        buffer.forEach(function(chunk) {
+          app.stdin.write(chunk)
+        })
+        util.pump(req, app.stdin)
+      }
       cgiPump(app.stdout, res)
+      app.stderr.on("data", function(chunk) {
+        console.log(chunk.toString())
+      })
     })
   }
 }
