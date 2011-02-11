@@ -40,6 +40,7 @@ function cgiHandler(conf) {
     , sharedMeta = {
         GATEWAY_INTERFACE: "CGI/1.1"
       , REDIRECT_STATUS: "200"
+      , DOCUMENT_ROOT: root
       }
 
   return function(req, res, next) {
@@ -71,7 +72,6 @@ function cgiHandler(conf) {
         SCRIPT_NAME: pathname
       , QUERY_STRING: url.query || CGI_NULL
       , SCRIPT_FILENAME: scriptName
-      , DOCUMENT_ROOT: root
       , REQUEST_METHOD: req.method
       , REMOTE_ADDRESS: req.connection.remoteAddress
       , REMOTE_PORT: req.connection.remotePort
