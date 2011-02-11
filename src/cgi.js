@@ -3,7 +3,7 @@ var spawn = require("child_process").spawn
   , Url = require("url")
   , fs = require("fs")
   , extend = require("./util").extend
-  , util = require("util")
+  , util
 
   , CGI_NULL = ""
   , EOL = /\r?\n/
@@ -12,6 +12,12 @@ var spawn = require("child_process").spawn
       pl: "perl"
     , php: "php-cgi"
     }
+
+try {
+  util = require("util")
+} catch (e) {
+  util = require("sys")
+}
 
 exports.handler = cgiHandler
 exports.preset = Object.keys(defaultBin).reduce(function(preset, ext) {
