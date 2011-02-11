@@ -108,10 +108,9 @@ function cgiPump(readStream, res) {
       , rawHeaders = rawHeaderStr.split(EOL)
       , headers = {}
 
-    rawHeaders.reduce(function(headers, line) {
+    rawHeaders.forEach(function(line) {
       var matched = line.match(/^([^:]+): +(.*)$/)
-      if (matched) headers[matched[1]] = matched[2]
-      return headers
+      if (matched) this[matched[1]] = matched[2]
     }, headers)
 
     var status = parseInt(headers.Status, 10) || 200
