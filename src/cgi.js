@@ -85,6 +85,7 @@ function cgiHandler(conf) {
 
 function cgiPump(readStream, res) {
   var headerDone = false
+    , bytesPassed = 0
     , trailing = ""
 
   readStream.on("end", function() {
@@ -96,10 +97,15 @@ function cgiPump(readStream, res) {
 
     trailing += chunk.toString("ascii")
     headerDone = EMPTY_LINE.test(trailing)
-    if (!headerDone) return
+    if (!headerDone) {
+      bytesPassed += chunk.length
+      return
+    }
 
-    var firstBody = RegExp.rightContext
-      , rawHeaders = RegExp.leftContext.split(EOL)
+    var rawHeaderStr = RegExp.leftContext
+      , offset = rawHeaderStr.length + RegExp.lastMatch.length - bytesPassed
+      , firstBody = chunk.slice(offset, chunk.length)
+      , rawHeaders = rawHeaderStr.split(EOL)
       , headers = {}
 
     rawHeaders.reduce(function(headers, line) {

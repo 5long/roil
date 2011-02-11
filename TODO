@@ -1,6 +1,4 @@
 * Eliminate `Workspace` class
-* Parse CGI response in raw buffer instead of regex & string, thus allow
-  binary output from CGI scripts
 * Put all watchers in a single middleware so we can define a API for
   writing custom rules
 * A repl console to push command to all clients
