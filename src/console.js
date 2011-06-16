@@ -7,7 +7,7 @@ var roil = require("./index.js")
   , watcher = require("./watcher")
   , path = require("path")
   , connect = require("connect")
-  , staticProvider = connect.staticProvider
+  , staticProvider = connect.static
   , cgi = require("./cgi")
 
 function Console(workDir, workspace) {
