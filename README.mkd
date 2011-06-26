@@ -1,19 +1,20 @@
 # Intro
 
-Roil is an HTTP server written in [node.js](http://nodejs.org) which could
-monitor changes of files and notify opted-in browser clients to refresh the
-webpage so you don't have to press F5 each time you saved file.
+Roil is an HTTP server written in [Node.js](http://nodejs.org) which:
+
+* Track dependency via `Referer` HTTP header
+* Watch files to see if they change
+* Notify browsers to refresh if change happens
+
+Good for rapid prototyping and JavaScript unit testing.
 
 ## Installation
 
-If you are new to node.js world [this
-snippet](https://gist.github.com/579814) should get you started. For
-Windows users: node.js could run in [cygwin](http://www.cygwin.com)
-environment.
+[Install Node and npm first](https://github.com/joyent/node/wiki/Installation).
 
-Install `roil` with `npm`:
+Then install Roil with npm:
 
-    $ npm install roil
+    $ npm install roil -g
 
 ## Usage
 
@@ -24,12 +25,8 @@ In your working directory:
     $ roil -b firefox & # Assume you've got firefox in your $PATH
 
 Then in the opened page, enter `foo.html` and click the open button.
-Now you can edit `foo.html` and see your browser automatically refresh
+Try to edit `foo.html` and see your browser automatically refresh
 every time you save it.
-
-If there's a `<link>` tag in `foo.html` referring to `bar.css`, the roil
-server would take care of this (by checking HTTP header) so changing
-`bar.css` also notifies your browser to refresh.
 
 `roil -h` would help you.
 
