@@ -10,5 +10,6 @@ update-dep:
 setup-dev:
 	npm link
 	npm install reut -g
+	npm uninstall reut
 
 .PHONY: test-all update-dep setup-dev
