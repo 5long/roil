@@ -1,4 +1,0 @@
-* Eliminate `Workspace` class
-* Put all watchers in a single middleware so we can define a API for
-  writing custom rules
-* A repl console to push command to all clients

@@ -29,7 +29,3 @@ Try to edit `foo.html` and see your browser automatically refresh
 every time you save it.
 
 `roil -h` would help you.
-
-## Contribution
-
-Patches welcome, See `TODO`.
