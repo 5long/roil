@@ -40,20 +40,10 @@ util.def(Console.prototype, {
 , _attachStaticProvider: function(server, options) {
     options = options || {}
     var documentRoot = options.workDir || process.cwd()
-      , consolePath = options.consolePath || "/roil/"
+      , consolePath = options.consolePath || "/roil"
       , consoleDocRoot = path.join(__dirname, "console")
       , consoleSP = staticProvider(consoleDocRoot)
-      , leadingPath = new RegExp(consolePath + "(.*)$")
-    server.use(connect.router(function(app) {
-      app.get(leadingPath, function(req, res, next) {
-        var trailingPath = req.params[0]
-        if (trailingPath.charAt(0) != "/") {
-          trailingPath = "/" + trailingPath
-        }
-        req.url = trailingPath
-        consoleSP.call(this, req, res, next)
-      })
-    }))
+    server.use(consolePath, consoleSP)
     for (var i in cgi.preset) {
       server.use(cgi.preset[i]({root: documentRoot}))
     }
