@@ -28,4 +28,5 @@ var util = module.exports = {
     }
     return dest
   }
+, noop: new Function()
 }

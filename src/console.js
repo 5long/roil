@@ -29,7 +29,7 @@ util.def(Console.prototype, {
   }
 , _attachSocket: function(server, options) {
     this._socketListener = socketIo.listen(server, {
-      log: new Function()
+      log: util.noop
     })
     this._socketListener.on("connection", function(socket) {
       var user = new User(new Client(socket))
