@@ -29,3 +29,12 @@ Try to edit `foo.html` and see your browser automatically refresh
 every time you save it.
 
 `roil -h` would help you.
+
+## Contribution
+
+Wanna contribute? Awesome! The following steps should get you started:
+
+* Create your own fork
+* Install npm, which is a must
+* `make setup-dev` to install dependencies
+* Happy hacking
