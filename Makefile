@@ -1,15 +1,14 @@
 TEST_FILES=${wildcard test/*.js}
+TEST_BIN=./node_modules/.bin/reut
+
 
 test-all:
-	reut $(TEST_FILES)
+	$(TEST_BIN) $(TEST_FILES)
 
 update-dep:
 	npm update
-	npm uninstall reut
 
 setup-dev:
 	npm link
-	npm install reut -g
-	npm uninstall reut
 
 .PHONY: test-all update-dep setup-dev
