@@ -37,6 +37,9 @@ reut.suite("Workspace Class")
   f.child = Resource.new("/bar")
   done()
 })
+.teardown(function(f) {
+  Resource.instances = {}
+})
 .test(".useWatcher()", function(t, f) {
   var ws = f.ws
     , watcher = f.fakeWatcher

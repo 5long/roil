@@ -12,7 +12,9 @@ reut.suite("Resource")
   done()
 })
 .teardown(function(f, done) {
+  f.res.del(f.file)
   f.file.watchStop()
+  Resource.instances = {}
   done()
 })
 .test("identified by url", function(t, f) {
