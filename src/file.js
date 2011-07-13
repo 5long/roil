@@ -7,6 +7,8 @@ var util = require('./util')
 function File(p) {
   this._path = p
   this._watching = false
+  this._deps = {}
+  this._changeHandler = this._onChange.bind(this)
 }
 
 File.new = function(p, fs) {
@@ -53,6 +55,31 @@ util.def(File.prototype, {
   }
 
 , _watchModule: fs
+, add: function(child) {
+    if (this.has(child)) return
+    if (child == this) return
+    this._deps[child] = child
+    child.on("change", this._changeHandler)
+    child.watchStart()
+  }
+, addDep: function(dep) {
+    if (typeof dep == 'string') {
+      dep = this.constructor.new(dep)
+    }
+    this.add(dep)
+  }
+, has: function(child) {
+    return child in this._deps
+  }
+, del: function(child) {
+    if (!this.has(child)) return
+    child.removeListener("change", this._changeHandler)
+    delete this._deps[child]
+  }
+, _onChange: function(target) {
+    if (!this.watching) return
+    this.emit("change", target || this)
+  }
 })
 
 module.exports = File

@@ -21,11 +21,13 @@ reut.suite("File")
   f.path = __dirname + "/../Makefile"
   f.fullpath = path.normalize(f.path)
   f.file = roil.File.new(f.path)
+  f.anotherFile = roil.File.new(__filename)
   f.file._watchModule = fakeFs
   done()
 })
 .teardown(function(f, done) {
   delete f.file
+  f.anotherFile.watchStop()
   fakeFs.paths = {}
   done()
 })
@@ -63,4 +65,15 @@ reut.suite("File")
     throw Error("Should not fire")
   })
   fakeFs.touch(file.path)
+})
+.test("addDep()", function(t, f) {
+  var file = f.file
+    , dep = f.anotherFile
+    , depPath = dep.path
+  file.addDep(depPath)
+  t.ok(file.has(dep))
+  file.del(dep)
+  t.ok(!file.has(dep))
+  file.addDep(dep)
+  t.ok(file.has(dep))
 })
