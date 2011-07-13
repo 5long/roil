@@ -23,9 +23,6 @@ var util = module.exports = {
     })
   }
 , EventEmitter: require("events").EventEmitter
-, isFunc: function(obj) {
-    return Object.prototype.toString.call(obj) == "[object Function]"
-  }
 , extend: function(dest, source) {
     if (arguments.length < 2) throw TypeError("Wrong number of arguments")
     for (var i in source) {
