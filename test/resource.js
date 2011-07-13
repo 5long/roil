@@ -46,3 +46,14 @@ reut.suite("Resource")
   })
   f.file.emit("change")
 })
+.test("addDep()", function(t, f) {
+  var res = f.res
+    , depUrl = '/blah'
+    , dep = Resource.new(depUrl)
+  res.addDep(dep)
+  t.ok(res.has(dep))
+  res.del(dep)
+  t.ok(!res.has(dep))
+  res.addDep(depUrl)
+  t.ok(res.has(dep))
+})

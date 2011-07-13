@@ -22,6 +22,12 @@ util.def(Resource.prototype, {
     child.on("change", this._changeHandler)
     child.watchStart()
   }
+, addDep: function(dep) {
+    if (typeof dep == 'string') {
+      dep = this.constructor.new(dep)
+    }
+    this.add(dep)
+  }
 , has: function(child) {
     return child in this._children
   }
