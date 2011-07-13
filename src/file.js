@@ -1,5 +1,4 @@
 var util = require('./util')
-  , isFunc = util.isFunc
   , path = require("path")
   , fs = require("fs")
   , all = {}
