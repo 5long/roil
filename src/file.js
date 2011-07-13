@@ -29,7 +29,7 @@ util.inherits(File, AbstractResource)
 util.def(File.prototype, {
   watchStart: function() {
     if (this._watching) return
-    this._watching = true
+    AbstractResource.prototype.watchStart.call(this)
     this._watchModule.watchFile(this._path, function(current, prev) {
       this.emit("change", this)
     }.bind(this))
@@ -37,7 +37,7 @@ util.def(File.prototype, {
 
 , watchStop: function() {
     this._watchModule.unwatchFile(this._path)
-    this._watching = false
+    AbstractResource.prototype.watchStop.call(this)
   }
 
 , toString: function() {
