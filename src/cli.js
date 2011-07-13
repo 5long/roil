@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 var Console = require("./console")
+  , RoilApp = require("./app")
   , arg, options = {
       workDir: process.cwd()
     , consolePath: "/roil/"
@@ -14,6 +15,7 @@ var Console = require("./console")
   , connect = require("connect")
   , server = connect.createServer()
   , c = new Console()
+  , plugIns = []
   , helpMessage =
     [ "Usage: roil [options]"
     , "Options:"
@@ -32,6 +34,9 @@ var Console = require("./console")
     , "  -c <path>, --console-path <path>"
     , "    use a specific path for console, `/roil/' by default"
     , "    mostly you don't have to worry 'cuz \"roil\" is a strange name"
+    , ""
+    , "  -l <file>, --load-plugin <file>"
+    , "    load <file> as roil plugin"
     , ""
     , "  -h, --help"
     , "    print this and exit"
@@ -71,6 +76,10 @@ while (arg = args.shift()) {
     case "--help":
       console.log(helpMessage)
       process.exit(1)
+    case "-l":
+    case "--load-plugin":
+      plugIns.push(args.shift())
+      break
     default:
       console.log("Unknown argument:", arg)
       process.exit(1)
@@ -78,6 +87,12 @@ while (arg = args.shift()) {
 }
 
 c.attach(server, options)
+var app = new RoilApp(options)
+app.server = server
+plugIns.forEach(function(p) {
+  p = path.resolve(p)
+  app.loadPlugin(require(p))
+})
 server.listen(options.port)
 
 var consolePath = "http://localhost:" + options.port + options.consolePath

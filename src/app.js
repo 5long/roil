@@ -25,11 +25,12 @@ util.def(RoilApp.prototype, {
       (rule.cb)(r)
     })
   }
-, matchResource: function(klass, cb) {
-    var newRule = {
-      klass: klass
-    , cb: cb
-    }
+, matchResource: function(klass) {
+    var cb = arguments[arguments.length - 1]
+      , newRule = {
+          klass: klass
+        , cb: cb
+        }
     this._resourceRules.push(newRule)
     for (var i in klass.instances) {
       cb(klass.instances[i])
