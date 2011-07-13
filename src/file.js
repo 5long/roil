@@ -6,7 +6,6 @@ var util = require('./util')
 
 function File(p) {
   this._path = p
-  this._watching = false
   this._deps = {}
   this._changeHandler = this._onChange.bind(this)
 }
