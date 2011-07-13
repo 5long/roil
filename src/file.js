@@ -9,6 +9,7 @@ function File(p) {
   this._path = p
 }
 
+File.instances = all
 File.new = function(p, fs) {
   p = File.normalizePath(p)
   return p in all ? all[p] : all[p] = new File(p)
