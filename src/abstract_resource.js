@@ -3,6 +3,7 @@ var util = require("./util")
 function AbstractResource() {
   this._deps = {}
   this._changeHandler = this._onChange.bind(this)
+  AbstractResource.super_.call(this)
 }
 
 util.inherits(AbstractResource, util.EventEmitter)

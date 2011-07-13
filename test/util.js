@@ -1,6 +1,6 @@
 var reut = require("reut")
   , util = require("../src/util")
- 
+
 reut.suite("Roil.util")
 .test(".def()", function(t, f) {
   function Mixin() {}
