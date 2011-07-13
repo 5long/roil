@@ -1,5 +1,7 @@
 var util = require("./util")
   , connect = require("connect")
+  , File = require("./file")
+  , WebResource = require("./resource")
 
 function RoilApp(conf) {
   this._conf = conf
@@ -32,6 +34,10 @@ util.def(RoilApp.prototype, {
     for (var i in klass.instances) {
       cb(klass.instances[i])
     }
+  }
+, resource: {
+    File: File
+  , WebResource: WebResource
   }
 })
 

@@ -45,3 +45,8 @@ reut.suite("App class")
   anotherRes = WebResource.new("/holy/crap")
   app.addResource(anotherRes)
 })
+.test("Exposing resource classes", function(t, f) {
+  var r = f.app.resource
+  t.typeOf(r.File, 'function')
+  t.typeOf(r.WebResource, 'function')
+})
