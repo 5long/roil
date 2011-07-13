@@ -11,6 +11,12 @@ util.def(AbstractResource.prototype, {
   get watching() {
     return this._watching
   }
+, watchStart: function() {
+    this._watching = true
+  }
+, watchStop: function() {
+    this._watching = false
+  }
 , add: function(child) {
     if (this.has(child)) return
     if (child == this) return
