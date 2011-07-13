@@ -10,9 +10,13 @@ var util = module.exports = {
     })
     klass.super_ = super
   }
-, def: function(dest, source) {
+, def: function(dest, source, spec) {
     if (arguments.length < 2) throw TypeError("Wrong number of arguments")
     var props = Object.getOwnPropertyNames(source)
+    spec = spec || {blackList: []}
+    props = props.filter(function(prop) {
+      return !util.hasMember(spec.blackList, prop)
+    })
     props.forEach(function(prop) {
       var pd = Object.getOwnPropertyDescriptor(source, prop)
       Object.defineProperty(dest, prop, pd)
@@ -30,7 +34,12 @@ var util = module.exports = {
     return dest
   }
 , implements: function(klass, mixin) {
-    util.def(klass.prototype, mixin.prototype)
+    util.def(klass.prototype, mixin.prototype, {
+      blackList: ['constructor']
+    })
+  }
+, hasMember: function(ary, value) {
+    return ary.indexOf(value) >= 0
   }
 , noop: new Function()
 }

@@ -13,4 +13,5 @@ reut.suite("Roil.util")
   var instance = new Klass()
   instance._blah = true
   t.ok(instance.blah)
+  t.is(instance.constructor, Klass)
 })
