@@ -50,3 +50,16 @@ reut.suite("App class")
   t.typeOf(r.File, 'function')
   t.typeOf(r.WebResource, 'function')
 })
+.test("addResource more than once", function(t, f) {
+  var app = f.app
+    , r = app.resource
+    , someResource = WebResource.new('/foo/bar')
+    , count = 0
+  app.matchResource(r.WebResource, function(r) {
+    count++
+  })
+  app.addResource(someResource)
+  app.addResource(someResource)
+  app.addResource(someResource)
+  t.is(count, 1)
+})

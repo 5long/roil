@@ -7,6 +7,7 @@ function RoilApp(conf) {
   this._conf = conf
   this.server = connect.createServer()
   this._resourceRules = []
+  this._resources = {}
 }
 
 util.def(RoilApp.prototype, {
@@ -20,6 +21,8 @@ util.def(RoilApp.prototype, {
     plugin.call(null, this)
   }
 , addResource: function(r) {
+    if (r in this._resources) return
+    this._resources[r] = r
     this._resourceRules.forEach(function(rule) {
       if (!(r instanceof rule.klass)) return
       (rule.cb)(r)
@@ -32,8 +35,10 @@ util.def(RoilApp.prototype, {
         , cb: cb
         }
     this._resourceRules.push(newRule)
-    for (var i in klass.instances) {
-      cb(klass.instances[i])
+    for (var i in this._resources) {
+      var r = this._resources[i]
+      if (!(r instanceof newRule.klass)) continue
+      cb(r)
     }
   }
 , resource: {
