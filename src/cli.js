@@ -38,6 +38,9 @@ var Console = require("./console")
     , "  -l <file>, --load-plugin <file>"
     , "    load <file> as roil plugin"
     , ""
+    , "  --debug"
+    , "    You don't have to know"
+    , ""
     , "  -h, --help"
     , "    print this and exit"
     ].join("\n")
@@ -116,6 +119,7 @@ if (options.debug) {
   console.log(options)
   var context = require("repl").start().context
   context.c = c
+  context.a = app
   context.s = server
   c._socketListener.on("connection", function(client) {
     client.on("message", function(msg) {
