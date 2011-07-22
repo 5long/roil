@@ -24,9 +24,8 @@ util.def(RoilApp.prototype, {
     if (r in this._resources) return
     this._resources[r] = r
     this._resourceRules.forEach(function(rule) {
-      if (!(r instanceof rule.klass)) return
-      (rule.cb)(r)
-    })
+      RoilApp._applyRule(rule, r)
+    }, this)
   }
 , matchResource: function(klass) {
     var cb = arguments[arguments.length - 1]
@@ -36,9 +35,7 @@ util.def(RoilApp.prototype, {
         }
     this._resourceRules.push(newRule)
     for (var i in this._resources) {
-      var r = this._resources[i]
-      if (!(r instanceof newRule.klass)) continue
-      cb(r)
+      RoilApp._applyRule(newRule, this._resources[i])
     }
   }
 , resource: {
@@ -46,5 +43,10 @@ util.def(RoilApp.prototype, {
   , WebResource: WebResource
   }
 })
+
+RoilApp._applyRule = function(rule, resource) {
+  if (!(resource instanceof rule.klass)) return
+  (rule.cb)(resource)
+}
 
 module.exports = RoilApp
