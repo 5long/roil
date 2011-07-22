@@ -43,6 +43,11 @@ util.def(RoilApp.prototype, {
     File: File
   , WebResource: WebResource
   }
+, attachWorkspace: function(ws) {
+    ws.on("BC:resource", function(r) {
+      this.addResource(r)
+    }.bind(this))
+  }
 })
 
 RoilApp._applyRule = function(rule, resource) {

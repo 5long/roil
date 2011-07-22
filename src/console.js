@@ -46,6 +46,9 @@ util.def(Console.prototype, {
     server.use(staticProvider(documentRoot))
     this._workspace.addServer(server)
   }
+, get workspace() {
+    return this._workspace
+  }
 })
 
 module.exports = Console

@@ -92,6 +92,7 @@ while (arg = args.shift()) {
 c.attach(server, options)
 var app = new RoilApp(options)
 app.server = server
+app.attachWorkspace(c.workspace)
 plugIns.forEach(function(p) {
   p = path.resolve(p)
   app.loadPlugin(require(p))

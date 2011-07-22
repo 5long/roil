@@ -1,6 +1,7 @@
 var reut = require("reut")
   , RoilApp = require("../src/app")
   , WebResource = require("../src/resource")
+  , EventEmitter = require("events").EventEmitter
 
 reut.suite("App class")
 .setup(function(f) {
@@ -62,4 +63,14 @@ reut.suite("App class")
   app.addResource(someResource)
   app.addResource(someResource)
   t.is(count, 1)
+})
+.test("attachWorkspace()", function(t, f) {
+  var app = f.app
+    , ws = new EventEmitter
+    , blah = {}
+  app.addResource = t.cb(function(r) {
+    t.is(r, blah)
+  })
+  app.attachWorkspace(ws)
+  ws.emit("BC:resource", blah)
 })
