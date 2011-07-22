@@ -11,7 +11,7 @@ var util = module.exports = {
     klass.super_ = super
   }
 , def: function(dest, source, spec) {
-    if (arguments.length < 2) throw TypeError("Wrong number of arguments")
+    if (arguments.length < 2) throw new TypeError("Wrong number of arguments")
     var props = Object.getOwnPropertyNames(source)
     spec = spec || {blackList: []}
     props = props.filter(function(prop) {
@@ -24,7 +24,7 @@ var util = module.exports = {
   }
 , EventEmitter: require("events").EventEmitter
 , extend: function(dest, source) {
-    if (arguments.length < 2) throw TypeError("Wrong number of arguments")
+    if (arguments.length < 2) throw new TypeError("Wrong number of arguments")
     for (var i in source) {
       dest[i] = source[i]
     }

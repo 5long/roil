@@ -21,7 +21,7 @@ util.def(Console.prototype, {
     ws.useWatcher(new watcher.Static(this._workDir))
   }
 , attach: function(server, options) {
-    if (this._server) throw Error("Already attached a server")
+    if (this._server) throw new Error("Already attached a server")
     this._server = server
     this._attachSocket(server, options)
     this._attachStaticProvider(server, options)

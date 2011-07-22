@@ -62,7 +62,7 @@ reut.suite("File")
   file.watchStop()
   t.ok(!file.watching)
   file.on("change", function() {
-    throw Error("Should not fire")
+    throw new Error("Should not fire")
   })
   fakeFs.touch(file.path)
 })

@@ -42,7 +42,7 @@ reut.suite("Resource")
   f.res.del(f.file)
   f.file.watchStart()
   f.res.on("change", function() {
-    throw Error("Should not fire")
+    throw new Error("Should not fire")
   })
   f.file.emit("change")
 })
