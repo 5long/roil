@@ -8,7 +8,6 @@ var roil = require("./index.js")
   , path = require("path")
   , connect = require("connect")
   , staticProvider = connect.static
-  , cgi = require("./cgi")
 
 function Console(workDir, workspace) {
   this._workDir = workDir || process.cwd()
@@ -44,9 +43,6 @@ util.def(Console.prototype, {
       , consoleDocRoot = path.join(__dirname, "console")
       , consoleSP = staticProvider(consoleDocRoot)
     server.use(consolePath, consoleSP)
-    for (var i in cgi.preset) {
-      server.use(cgi.preset[i]({root: documentRoot}))
-    }
     server.use(staticProvider(documentRoot))
     this._workspace.addServer(server)
   }
