@@ -22,6 +22,8 @@ util.def(Workspace.prototype, {
       this._resources[url] = this._resources[url] || e.belongTo
       parent = this._resources[url]
       parent.add(e.resource)
+      this.emit("BC:resource", parent)
+      this.emit("BC:resource", e.resource)
     }.bind(this))
     this._servers.forEach(function(server) {
       server.on("request", watcher.closure)

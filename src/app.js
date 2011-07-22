@@ -22,6 +22,7 @@ util.def(RoilApp.prototype, {
   }
 , addResource: function(r) {
     if (r in this._resources) return
+    if (this._conf.debug) console.log("ADD", r.path)
     this._resources[r] = r
     this._resourceRules.forEach(function(rule) {
       RoilApp._applyRule(rule, r)

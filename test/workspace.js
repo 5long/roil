@@ -46,14 +46,20 @@ reut.suite("Workspace Class")
     , page = ws.open("/baz")
     , parent = f.parent
     , child = f.child
+    , count = 0
 
   ws.useWatcher(watcher)
   page.add = t.cb(function(file) {
     t.equal(file, child)
+  })
+  t.emits(ws, 'BC:resource', function(r) {
+    t.ok(r == parent || r == child)
+    count++
   })
 
   watcher.emit("relate", {
     resource: child
   , belongTo: parent
   })
+  t.is(count, 2)
 })
