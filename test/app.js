@@ -5,9 +5,6 @@ var reut = require("reut")
 
 reut.suite("App class")
 .setup(setupApp)
-.teardown(function(f) {
-  WebResource.instances = {}
-})
 .test("run and shutdown methods", function(t, f) {
   var app = f.app
     , server = app.server
@@ -22,6 +19,17 @@ reut.suite("App class")
         t.is(roil, app)
       })
   app.loadPlugin(dummyPlugin)
+})
+.test("Exposing resource classes", function(t, f) {
+  var r = f.app.resource
+  t.typeOf(r.File, 'function')
+  t.typeOf(r.WebResource, 'function')
+})
+
+reut.suite("Resource: dep and rules")
+.setup(setupApp)
+.teardown(function(f) {
+  WebResource.instances = {}
 })
 .test("addResource then matchResource", function(t, f) {
   var app = f.app
@@ -39,11 +47,6 @@ reut.suite("App class")
   }))
   anotherRes = WebResource.new("/holy/crap")
   app.addResource(anotherRes)
-})
-.test("Exposing resource classes", function(t, f) {
-  var r = f.app.resource
-  t.typeOf(r.File, 'function')
-  t.typeOf(r.WebResource, 'function')
 })
 .test("addResource more than once", function(t, f) {
   var app = f.app
