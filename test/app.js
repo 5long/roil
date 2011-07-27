@@ -74,6 +74,19 @@ reut.suite("Resource: dep and rules")
   app.attachWorkspace(ws)
   ws.emit("BC:resource", blah)
 })
+.test("dependency handling", function(t, f) {
+  var app = f.app
+    , WebResource = app.resource.WebResource
+    , parent = f.someResource
+    , dep = WebResource.new("/holy/crap")
+    , counter = 0
+  parent.addDep(dep)
+  app.matchResource(WebResource, function(r) {
+    if (r == dep) counter++
+  })
+  app.addResource(parent)
+  t.is(counter, 1)
+})
 
 function setupApp(f) {
   f.conf = {

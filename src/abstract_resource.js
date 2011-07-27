@@ -43,6 +43,12 @@ util.def(AbstractResource.prototype, {
     if (!this.watching) return
     this.emit("change", target || this)
   }
+, forEachDep: function(cb, context) {
+    for (var i in this._deps) {
+      var dep = this._deps[i]
+      cb.call(context, dep)
+    }
+  }
 })
 
 module.exports = AbstractResource

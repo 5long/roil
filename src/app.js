@@ -27,6 +27,9 @@ util.def(RoilApp.prototype, {
     this._resourceRules.forEach(function(rule) {
       RoilApp._applyRule(rule, r)
     })
+    r.forEachDep(function(dep) {
+      this.addResource(dep)
+    }, this)
   }
 , matchResource: function(klass) {
     var cb = arguments[arguments.length - 1]
