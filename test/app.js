@@ -53,10 +53,10 @@ reut.suite("Resource: dep and rules")
 })
 .test("addResource more than once", function(t, f) {
   var app = f.app
-    , r = app.resource
+    , klass = app.resource.WebResource
     , someResource = f.someResource
     , count = 0
-  app.matchResource(r.WebResource, function(r) {
+  app.matchResource(klass, function(r) {
     count++
   })
   app.addResource(someResource)
