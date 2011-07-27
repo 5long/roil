@@ -27,13 +27,16 @@ reut.suite("App class")
 })
 
 reut.suite("Resource: dep and rules")
-.setup(setupApp)
+.setup(function(f) {
+  setupApp(f)
+  f.someResource = WebResource.new('/foo/bar')
+})
 .teardown(function(f) {
   WebResource.instances = {}
 })
 .test("addResource then matchResource", function(t, f) {
   var app = f.app
-    , someResource = WebResource.new('/foo/bar')
+    , someResource = f.someResource
   app.addResource(someResource)
   app.matchResource(WebResource, t.cb(function(r) {
     t.is(r, someResource)
@@ -51,7 +54,7 @@ reut.suite("Resource: dep and rules")
 .test("addResource more than once", function(t, f) {
   var app = f.app
     , r = app.resource
-    , someResource = WebResource.new('/foo/bar')
+    , someResource = f.someResource
     , count = 0
   app.matchResource(r.WebResource, function(r) {
     count++
