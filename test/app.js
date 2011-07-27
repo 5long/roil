@@ -79,13 +79,15 @@ reut.suite("Resource: dep and rules")
     , WebResource = app.resource.WebResource
     , parent = f.someResource
     , dep = WebResource.new("/holy/crap")
+    , laterDep = WebResource.new("/new/comer")
     , counter = 0
   parent.addDep(dep)
   app.matchResource(WebResource, function(r) {
-    if (r == dep) counter++
+    if (r == dep || r == laterDep) counter++
   })
   app.addResource(parent)
-  t.is(counter, 1)
+  parent.addDep(laterDep)
+  t.is(counter, 2)
 })
 
 function setupApp(f) {

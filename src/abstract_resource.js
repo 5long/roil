@@ -24,6 +24,7 @@ util.def(AbstractResource.prototype, {
     this._deps[child] = child
     child.on("change", this._changeHandler)
     child.watchStart()
+    this.emit("newDep", child)
   }
 , addDep: function(dep) {
     if (typeof dep == 'string') {

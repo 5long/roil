@@ -30,6 +30,9 @@ util.def(RoilApp.prototype, {
     r.forEachDep(function(dep) {
       this.addResource(dep)
     }, this)
+    r.on("newDep", function(dep) {
+      this.addResource(dep)
+    }.bind(this))
   }
 , matchResource: function(klass) {
     var cb = arguments[arguments.length - 1]
