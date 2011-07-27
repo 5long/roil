@@ -4,13 +4,7 @@ var reut = require("reut")
   , EventEmitter = require("events").EventEmitter
 
 reut.suite("App class")
-.setup(function(f) {
-  f.conf = {
-    port: 8913
-  , plugIns: []
-  }
-  f.app = new RoilApp(f.conf)
-})
+.setup(setupApp)
 .teardown(function(f) {
   WebResource.instances = {}
 })
@@ -74,3 +68,11 @@ reut.suite("App class")
   app.attachWorkspace(ws)
   ws.emit("BC:resource", blah)
 })
+
+function setupApp(f) {
+  f.conf = {
+    port: 8913
+  , plugIns: []
+  }
+  f.app = new RoilApp(f.conf)
+}
