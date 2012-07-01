@@ -1,14 +1,14 @@
 // Little missing library, that's it.
 var util = module.exports = {
-  inherits: function(klass, super) {
-    klass.prototype.__proto__ = super.prototype
+  inherits: function(klass, superClass) {
+    klass.prototype.__proto__ = superClass.prototype
     Object.defineProperty(klass.prototype, "constructor", {
       value: klass
     , writable: true
     , configurable: true
     , enumerable: false
     })
-    klass.super_ = super
+    klass.super_ = superClass
   }
 , def: function(dest, source, spec) {
     if (arguments.length < 2) throw new TypeError("Wrong number of arguments")
