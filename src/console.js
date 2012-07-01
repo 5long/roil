@@ -29,6 +29,7 @@ util.def(Console.prototype, {
 , _attachSocket: function(server, options) {
     this._socketListener = socketIo.listen(server, {
       log: util.noop
+    , transports: ['websocket', 'htmlfile', 'xhr-multipart', 'xhr-polling']
     })
     this._socketListener.on("connection", function(socket) {
       var user = new User(new Client(socket))
