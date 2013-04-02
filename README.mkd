@@ -1,40 +1,4 @@
-# Intro
+# Roil Is Dead
 
-Roil is an HTTP server written in [Node.js](http://nodejs.org) which:
-
-* Track dependency via `Referer` HTTP header
-* Watch files to see if they change
-* Notify browsers to refresh if change happens
-
-Good for rapid prototyping and JavaScript unit testing.
-
-## Installation
-
-[Install Node and npm first](https://github.com/joyent/node/wiki/Installation).
-
-Then install Roil with npm:
-
-    $ npm install roil -g
-
-## Usage
-
-In your working directory:
-
-    $ ls
-    bar.css  foo.html
-    $ roil -b firefox & # Assume you've got firefox in your $PATH
-
-Then in the opened page, enter `foo.html` and click the open button.
-Try to edit `foo.html` and see your browser automatically refresh
-every time you save it.
-
-`roil -h` would help you.
-
-## Contribution
-
-Wanna contribute? Awesome! The following steps should get you started:
-
-* Create your own fork
-* Install npm, which is a must
-* `make setup-dev` to install dependencies
-* Happy hacking
+This project is dead. There're tons of live-reload implementations out
+there. Pick one for your project.

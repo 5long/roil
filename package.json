@@ -22,6 +22,9 @@
   { "type": "git"
   , "url": "http://github.com/5long/roil.git"
   }
-, "scripts": { "test": "make test-all" }
-, "version": "0.1.5-1"
+, "scripts": {
+    "test": "make test-all",
+    "preinstall": "echo Roil is dead. See README.mkd for more."
+  }
+, "version": "0.1.6-dead"
 }
